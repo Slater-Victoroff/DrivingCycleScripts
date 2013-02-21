@@ -1,4 +1,5 @@
 import re
+import matplotlib.pyplot as plt
 
 class DrivingSchedule:
 	'''A Class that will represent a driving cycle'''
@@ -37,15 +38,15 @@ class DrivingSchedule:
 		this by looking at the comment at the top of the file, otherwise
 		there should be no change, change is inplace'''
 		if (self.speed[0].lower() == 'm'):
-			self.TVData = self.rescaleTV(1.60934)
-			self.VAData = self.rescaleVA(1.60934)
+			self.TVdata = self.rescaleTV(1.60934)
+			self.VAdata = self.rescaleVA(1.60934)
 			self.speed = 'kph'
 				
 	def toMPH(self):
 		'''Same as toKPH, but for MPH'''
 		if (self.speed[0].lower() == 'k'):
-			self.TVData = self.rescaleTV(0.621371)
-			self.VAData = self.rescaleVA(0.621371)
+			self.TVdata = self.rescaleTV(0.621371)
+			self.VAdata = self.rescaleVA(0.621371)
 			self.speed = 'mph'
 	
 	def rescaleTV(self, constant):
@@ -57,10 +58,31 @@ class DrivingSchedule:
 				
 	def rescaleVA(self,constant):
 		'''return scaled VA data, also does not change in place'''
-		newVAData = {}
+		newVAdata = {}
 		for velocity in self.VAdata:
-			newVAData[velocity*constant] = self.VAData[velocity]*constant
+			newVAdata[velocity*constant] = self.VAdata[velocity]*constant
 	
+	def plotTV(self):
+		'''Should render a TV plot as a line graph over time, might allow
+		for more calls through to pyplot if people are interested'''
+		plt.plot([self.TVdata[time] for time in self.TVdata])
+		plt.ylabel("Vehicle Speed (" + self.speed.strip() + ")")
+		plt.xlabel("time(secs)")
+		plt.show()
+		
+	def plotVA(self):
+		'''Should render a VA plot as a scatter plot showing the power
+		regions involved with the given driving schedule'''
+		velocities = []
+		accelerations = []
+		for velocity in self.VAdata:
+			 velocities.append(velocity)
+			 accelerations.append(self.VAdata[velocity])
+		plt.plot(velocities,accelerations,'ro')
+		plt.ylabel("Velocity (" + self.speed.strip() + ")")
+		plt.xlabel("Acceleration (" + self.speed.strip() + "/s)")
+		plt.show()
+		
 	def dump(self):
 		'''Writes the file to the provided output'''
 		with open(self.output, 'w') as output:

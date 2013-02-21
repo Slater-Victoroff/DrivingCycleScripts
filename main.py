@@ -1,9 +1,8 @@
 import DrivingCycle
 
 test = DrivingCycle.DrivingSchedule(
-source = "../DrivingTextFiles/JapaneseTechnicalStandards/15mode.txt",
-output ="../DrivingTextFiles/JapaneseTechnicalStandards/15mode.txt")
+source = "../DrivingTextFiles/CaliforniaEPA/UnifiedShortDrivingCycle.txt",
+output ="../DrivingTextFiles/CaliforniaEPA/UnifiedShortDrivingCycle.txt")
 test.parse()
-test.toMPH()
-test.dump()
+test.plotVA()
 	
