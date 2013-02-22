@@ -1,5 +1,6 @@
 import re
 import matplotlib.pyplot as plt
+import random
 
 class DrivingSchedule:
 	'''A Class that will represent a driving cycle'''
@@ -79,9 +80,41 @@ class DrivingSchedule:
 			 velocities.append(velocity)
 			 accelerations.append(self.VAdata[velocity])
 		plt.plot(velocities,accelerations,'ro')
-		plt.ylabel("Velocity (" + self.speed.strip() + ")")
-		plt.xlabel("Acceleration (" + self.speed.strip() + "/s)")
+		plt.xlabel("Velocity (" + self.speed.strip() + ")")
+		plt.ylabel("Acceleration (" + self.speed.strip() + "/s)")
 		plt.show()
+		
+	def shiftTVdata(self, timeShift=0, velocityShift=0):
+		'''Returns a copy of the Driving Cycle's TV data with a constant
+		shift up or down to either parameter'''
+		shiftedData = {}
+		for time in self.TVdata:
+			shiftedData[time+timeShift] = self.TVdata[time]+velocityShift
+		return shiftedData
+		
+	def shiftVAdata(self, velocityShift=0, accelerationShift=0):
+		'''Returns a copy of the Driving Cycle's VA data with a constant
+		shift up or down to either parameter'''
+		shiftedData = {}
+		for velocity in self.VAdata:
+			shiftedData[velocity+velocityShift] = self.VAdata[velocity]+accelerationShift
+		return shiftedData
+		
+	def jitterTVData(self, timeJitter=0, velocityJitter=0):
+		'''Returns a copy of the Driving Cycle's TV data with a random
+		amount added between 0 and the passed jitter parameters'''
+		shiftedData = {}
+		for time in self.TVdata:
+			shiftedData[time+(timeJitter*random.random())] = self.VAdata[time]+(velocityJitter*random.random())
+		return shiftedData
+			
+	def jitterVAData(self, velocityJitter=0, accelerationJitter=0):
+		'''Returns a copy of the Driving Cycle's TV data with a random
+		amount added between 0 and the passed jitter parameters'''
+		shiftedData = {}
+		for velocity in self.VAdata:
+			shiftedData[velocity+(velocityJitter*random.random())] = self.VAdata[velocity]+(accelerationJitter*random.random())
+		return shiftedData	
 		
 	def dump(self):
 		'''Writes the file to the provided output'''
