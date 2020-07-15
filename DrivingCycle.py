@@ -59,9 +59,10 @@ class DrivingSchedule:
 				
 	def rescaleVA(self,constant):
 		'''return scaled VA data, also does not change in place'''
-		newVAdata = {}
-		for velocity in self.VAdata:
-			newVAdata[velocity*constant] = self.VAdata[velocity]*constant
+		newVAdata = {
+		    velocity * constant: self.VAdata[velocity] * constant
+		    for velocity in self.VAdata
+		}
 	
 	def plotTV(self):
 		'''Should render a TV plot as a line graph over time, might allow
